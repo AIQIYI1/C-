@@ -1739,6 +1739,7 @@ int main(){
 */ 
 //电子表格
 //思路：输入二维数组；再用一维数组接收命令，结果再用if来判断，进行相关操作
+/*
 int main(){
 	int m,n,i=0,j=0,x,y,p,tempt;
 	char a[20][20];
@@ -1833,24 +1834,567 @@ for(i=0;i<m;i++){
 }
 	return 0;
 } 
+*/
+
+/*最多单词数 
+int main(){
+	char string[100][100],word[100],string1[100][100];
+	int i=0,j=0,flag=0,count=0,tempt=0,s=0,flag1=0;
+	while(scanf("%s",string[i])!=EOF){
+		i++;
+	}//输入了字符串并且记录了单词数i; 
+	//对末尾的 进行处理，赋给另一个数组
+	for(j=0;j<i;j++){
+		for(s=0;s<strlen(string[j]);s++){
+			flag1=0;
+			//大写变小写
+			if(string[j][s]>=65&&string[j][s]<90){
+				string[j][s]=string[j][s]+32;
+			}
+			//符号给替换掉
+			if(string[j][s]<65||string[j][s]>122)
+			{
+		string[j][s]=0;
+			}
+		}
+		sscanf(string[j],"%s",string1[j]);
+	}
+	for(int j=0;j<i;j++){//j表示待查找第j个单词 
+		for(int k=j-1;k>0;k--)// 查找的条件是在前边没有出现过 
+	{
+		if(strcmp(string1[k],string1[j])==0) flag=1;
+	}
+	if(flag==0){//表示前边没有出现过
+	count=0; 
+		for(int p=j;p<i;p++){
+			if(strcmp(string1[p],string1[j])==0){
+				count++;
+			}
+		}
+		if(count>tempt){
+			tempt=count;
+			strcpy(word,string[j]);
+		} 
+		if(count==tempt&&strcmp(word,string1[i])>0){
+			tempt=count;
+			strcpy(word,string1[j]);
+		}
+	
+	}
+	}
+	for(int q=0;q<strlen(word);q++) printf("%c",word[q]);
+	printf(" ");
+	printf("%d",tempt);
+	
+	return 0;
+}
+
+*/
+
+//单词逆序
+//思路：首先用gets来输入；再进行单词的分割；
+//把握好空格，识别到空格且下一个不为空格就++放入下一个数组；
+//再将切好的数组进行逆序再将数组挨个赋给 原本数组 
+/*
+int main(){
+	char string[20],string1[20][20]; 
+	int i=0,j=-1,k=0;//j表示第几个单词 
+    gets(string);
+    while(i<strlen(string)){
+    	if(string[i]!=' '){
+    		k=0;
+    		j++;
+    			while(string[i]!=' '){
+    			string1[j][k]=string[i];
+    			i++;
+    			k++;
+	}
+		}
+		if(string[i]==' '){
+			i++;
+		}
+	}
+	for(int p=0;p<j+1;p++){
+	for(int q=0;q<strlen(string1[p]);q++){
+		printf("%c",string1[p][q]);
+	}
+	}
+	return 0;
+} 
+*/
+//单词逆序
+//有可能有很多非字母字符，在判断的时候可以用ASC码来辅助判断 
+//首先要在空格处停下，根据空格前面的字符判断操作：如果是字母就进行倒的操作，反之则++到下一次 
+//就只需要识别字母黑非字母，遇到非字母，首先标记，并且判断其之前是否为字母，是就逆序，不是就更新j;
+//如果没有遇到非字母就直接++就好了 
+/*
+int main(){
+	int f=0,j=0,k=0,then=0,tempt=0;//j为上一次的空格位置，为0表最开始，便于第一个单词逆序；
+	char a[100];//then是标记的最新的空格处 
+	int i=0;
+	char ch;
+//	gets(a);
+while((ch=getchar())!='\n'){
+	a[i]=ch;
+	i++;
+}
+	 i=0;
+	while(i<=strlen(a)){
+		if(a[i]<65||a[i]>90&&a[i]<97||a[i]>122){//识别到了非字母字符 
+			then=i;//标记 
+			if(a[i-1]>=65&&a[i-1]<=90||a[i-1]>=97&&a[i-1]<=122){//要倒的话判断其前边 
+				if(then-j!=1){ 
+					if(j==0) j=-1;
+					for(k=j+1,f=then-1;k<(then+j)/2+1;k++,f--){
+					tempt=a[k];
+					a[k]=a[f];//换序 
+					a[f]=tempt;
+				}
+				}
+						
+	}
+	//无论倒不倒都要把j更新
+				j=then;		
+	}
+	
+				i++;
+	} 
+	puts(a);
+	return 0;
+}
+*/
+//字符串大小比较后输出
+/* 
+int main(){
+	int m;
+	scanf("%d",&m);
+	char string[100][100],tempt[100];
+	for(int i=0;i<m;i++){
+		scanf("%s",string[i]);
+	}
+	
+	for(int j=0;j<m-1;j++){
+		for(int k=j+1;k<m;k++){
+			if(strcmp(string[j],string[k])>0){
+				strcpy(tempt,string[j]);
+				strcpy(string[j],string[k]);
+				strcpy(string[k],tempt);
+			}
+		}
+	}
+	for(int p=0;p<m;p++){
+		printf("%s\n",string[p]);
+	}
+	return 0;
+} 
+*/
+/*
+int main(){
+	int a;
+	int m,i=0;//数据组数
+	char A[6][8],B[6][8],C[6][8],D[6][8],E[6][8],F[6][8],G[6][8],H[6][8],I[6][8],J[6][8]; //分别用于构造每个数字的形式
+	for(int j=0;j<7;j++){
+				for(int k=0;k<5;k++){
+				A[j][k]=' ';
+				A[j][k]=' ';
+				A[j][k]=' ';
+				A[j][k]=' ';
+				A[j][k]=' ';
+				A[j][k]=' ';
+				A[j][k]=' ';
+				A[j][k]=' ';
+				A[j][k]=' ';
+				A[j][k]=' ';
+				}
+			}
+	//0
+	for(i=0;i<5;i++){//b
+		A[0][i]='*';
+	} 
+	for(i=0;i<5;i++){//f
+		A[6][i]='*';
+	} 
+	for(i=0;i<7;i++){//a+e
+		A[i][0]='*';
+	} 
+	for(i=0;i<7;i++){//c+g
+		A[i][4]='*';
+	} 
+	//1
+	for(i=0;i<7;i++){//c+g
+		B[i][4]='*';
+	} 
+	//2
+	for(i=0;i<5;i++){//b
+		C[0][i]='*';
+	} 
+	for(i=0;i<5;i++){//d
+		C[3][i]='*';
+	} 
+	for(i=0;i<5;i++){//f
+		C[6][i]='*';
+	} 
+	for(i=3;i<7;i++){//e
+		C[i][0]='*';
+	} 
+	for(i=0;i<4;i++){//c
+		C[i][4]='*';
+	} 
+	//3
+	for(i=0;i<5;i++){//b
+		D[0][i]='*';
+	} 
+	for(i=0;i<5;i++){
+		D[3][i]='*';//d
+	} 
+	for(i=0;i<5;i++){
+		D[6][i]='*';//f
+	} 
+	for(i=0;i<7;i++){//c+g
+		D[i][4]='*';
+	} 
+	//4 .c+g.a.d
+	for(i=0;i<7;i++){//c+g
+		E[i][4]='*';
+	} 
+	for(i=0;i<4;i++){
+		E[i][0]='*';//a
+	}
+	for(i=0;i<5;i++){//d
+		E[3][i]='*';
+	} 
+	//5 a.b.d.g.f
+	for(i=0;i<4;i++){
+		F[i][0]='*';//a
+	}
+	for(i=0;i<5;i++){//b
+		F[0][i]='*';
+	} 
+	for(i=0;i<5;i++){//f
+		F[6][i]='*';
+	} 
+	for(i=0;i<5;i++){
+		F[3][i]='*';//d
+	} 
+	for(i=3;i<7;i++){
+		F[i][4]='*';//g
+	}
+	//6.b.a+e..d.f.g
+	for(i=0;i<5;i++){//b
+		G[0][i]='*';
+	} 
+	for(i=0;i<7;i++){//a+e
+		G[i][0]='*';
+	}
+	for(i=0;i<5;i++){
+		G[3][i]='*';//d
+	} 
+	for(i=0;i<5;i++){//f
+		G[6][i]='*';
+	}
+	for(i=3;i<7;i++){
+		G[i][4]='*';//g
+	} 
+	//7.b.c+g
+	for(i=0;i<5;i++){//b
+		H[0][i]='*';
+	} 
+	for(i=0;i<7;i++){//c+g
+		H[i][4]='*';
+	} 
+	//8.b.d.f.a+e.c+g
+	for(i=0;i<5;i++){//b
+		I[0][i]='*';
+	} 
+	for(i=0;i<5;i++){
+		I[3][i]='*';//d
+	} 
+	for(i=0;i<5;i++){//f
+		I[6][i]='*';
+	}
+	for(i=0;i<7;i++){//c+g
+		I[i][4]='*';
+	} 
+	for(i=0;i<7;i++){//a+e
+		I[i][0]='*';
+	}
+	//9.b.d.f.a.c+g
+	for(i=0;i<5;i++){//b
+		J[0][i]='*';
+	} 
+	for(i=0;i<5;i++){
+		J[3][i]='*';//d
+	} 
+	for(i=0;i<5;i++){//f
+		J[6][i]='*';
+	}
+	for(i=0;i<7;i++){//c+g
+		J[i][4]='*';
+	} 
+ 	for(int j=0;j<7;j++){
+				for(int k=0;k<5;k++){
+					printf("%c",B[j][k]);
+				}
+				printf("\n"); 
+			}
+	//设置完毕 开始接受数据
+	int num[5];
+	scanf("%d",&m);
+	while(m--){
+		scanf("%d",&a);
+		i=0;
+		while(a>0){
+			num[i]=a%10;
+			i++;
+			a=a/10;
+		}
+	int b=i;//数字的个数
+	for(i=b-1;i>=0;i--){
+		switch(num[i]){
+		case 0:
+			for(int j=0;j<7;j++){
+				for(int k=0;k<5;k++){
+					printf("%c",A[j][k]);
+				}
+				printf("\n"); 
+			}
+			printf("  ");
+			break;
+	
+			case 1:
+			for(int j=0;j<7;j++){
+				for(int k=0;k<5;k++){
+					printf("%c",B[j][k]);
+				}
+					printf("\n"); 
+			}
+			printf("  ");
+			break;
+		
+			case 2:
+			for(int j=0;j<7;j++){
+				for(int k=0;k<5;k++){
+					printf("%c",C[j][k]);
+				}
+				printf("\n"); 
+			}
+			printf("  ");
+			break;
+		
+			case 3:
+			for(int j=0;j<7;j++){
+				for(int k=0;k<5;k++){
+					printf("%c",D[j][k]);
+				}
+				printf("\n"); 
+			}
+			printf("  ");
+			break;
+		
+			case 4:
+			for(int j=0;j<7;j++){
+				for(int k=0;k<5;k++){
+					printf("%c",E[j][k]);
+				}
+				printf("\n"); 
+			}
+			printf("  ");
+			break;
+		
+			case 5:
+			for(int j=0;j<7;j++){
+				for(int k=0;k<5;k++){
+					printf("%c",F[j][k]);
+				}
+				printf("\n"); 
+			}
+			printf("  ");
+			break;
+		
+			case 6:
+			for(int j=0;j<7;j++){
+				for(int k=0;k<5;k++){
+					printf("%c",G[j][k]);
+				}
+				printf("\n"); 
+			}
+			printf("  ");
+			break;
+		
+			case 7:
+			for(int j=0;j<7;j++){
+				for(int k=0;k<5;k++){
+					printf("%c",H[j][k]);
+				}
+				printf("\n"); 
+			}
+			printf("  ");
+			break;
+		
+			case 8:
+			for(int j=0;j<7;j++){
+				for(int k=0;k<5;k++){
+					printf("%c",I[j][k]);
+				}
+				printf("\n"); 
+			}
+			printf("  ");
+			break;
+		
+			case 9:
+			for(int j=0;j<7;j++){
+				for(int k=0;k<5;k++){
+					printf("%c",J[j][k]);
+				}
+				printf("\n"); 
+			}
+			printf("  ");
+			break;
+}
+	}
+	printf("\n");
+}
+	return 0;
+}
+
+*/
+
+//字符串编码
+/*
+ #include <stdio.h>
+int fx( int a );
+int main( void ){
+	char ch[100];
+	int i, b, a, c;
+	
+	ch[0] = getchar();
+	for ( i = 1; ; i++ ) {
+		ch[i] = getchar();
+		if ( ch[i] == '\n' ) break;
+	}
+	b = i;
+	for ( i = 0; i < b; i++ ) {
+		if ( ch[i] == '\\') {
+			//接收的不是转义字符，而是八进制数，则需要用将数字转化为十六进制输出 
+			if ( ch[i + 1] >= '0' && ch[i + 1] <= '7') {
+				c = i;
+				a = 0;
+				for (i=i+1; i <= c + 3; i++) a = a * 10 + ch[i] - 48;//数组里存的是数字的asc码减去48才是数字本身，转化为数字 
+//			printf( " -%d- ", a );	
+				a = fx( a );
+				printf( "%X ", a );
+				i--;
+			}
+			else {//转义字符单独打印，因为前面有0不好处理 
+				i++;
+				if ( ch[i] == 'a') printf( "07 " );
+				else if ( ch[i] == 'b' ) printf( "08 " );
+				else if ( ch[i] == 't' ) printf( "09 " );
+				else if ( ch[i] == 'n' ) printf( "0A " );
+				else if ( ch[i] == 'v' ) printf( "0B " );
+				else if ( ch[i] == 'f' ) printf( "0C " );
+				else if ( ch[i] == 'r' ) printf( "0D " );
+				else if ( ch[i] == 'x' ){
+					if ( ch[i+1] >'Z') ch[i+1] = ch[i+1] -32;//大写字母转化为小写 
+					if ( ch[i+2] >'Z') ch[i+2] = ch[i+2] -32;
+					printf( "%c%c ", ch[i+1], ch[i+2] );
+					i += 2;	
+				}
+				else printf( "%X ", ch[i] );
+			}	
+		}
+		else printf( "%X ",ch[i]);		
+	}
+	return 0;
+}
+int fx( int a ) {
+	int b, i, c, j, k;
+	i = 1;
+	c = 0;
+	while ( a != 0 ) {
+		k = 1;
+		for ( j = i; j > 1; j-- ) k *= 8;//输入的数字转成相应的十进制数 
+		b = a % 10;
+		c += b * k;
+		i++;
+		a /= 10;
+	}
+	return c;
+}
+
+*/
 
 
+//优秀代码 
+//#include<stdio.h>
+//int P[200][200],D[200][200];
+//int max(int a,int b)
+//{
+//    return a>b?a:b;
+//}
+//int max_path(int m, int n)
+//{
+//	int i,j;
+//	P[0][0] = D[0][0];
+//	for(i = 1; i < m; i++)
+//	{
+//		P[i][0] = D[i][0] +P[i-1][0];
+//	}
+//	for(i = 1; i < n; i++){
+//		P[0][i] = D[0][i] + P[0][i-1];
+//	}
+//	for(i = 1; i < m; i++){
+//		for(j =1; j < n; j++){
+//			P[i][j] = D[i][j] + max(P[i-1][j], P[i][j-1]);
+//        }
+//    }
+//    return P[m-1][n-1];
+//}
+//int main()
+//{
+//	
+//    int m,n,i,j;
+//    scanf("%d %d",&m,&n);
+//    for(i=0;i<m;i++)
+//        for(j=0;j<n;j++)
+//            scanf("%d",&D[i][j]);//输入的矩阵 
+//    int result = max_path(m,n);
+//    printf("%d",result);
+//}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//最优路线 
+//思路将矩阵中的每一个位置用“和”来表示，即走到某个地方的最大值表示 
+/*
+int main(){
+	int max(int a,int b);
+	int m,n;
+	int i=0,j=0;
+	int A[100][100],B[100][100];
+	scanf("%d%d",&m,&n);
+	for(i=0;i<m;i++){
+		for(j=0;j<n;j++){
+			scanf("%d",&A[i][j]);
+		}
+	}
+	B[0][0]=A[0][0];
+	for(i=1;i<m;i++){//对边沿纵列取“和” 
+    B[i][0]=A[i][0]+B[i-1][0]; 
+}
+    for(j=1;j<n;j++){
+    	B[0][j]=A[0][j]+B[0][j-1]; 
+	} 
+	for(i=1;i<m;i++){
+		for(j=1;j<n;j++){
+			B[i][j]=A[i][j]+max(B[i-1][j],B[i][j-1]);
+		}
+	}//有递归的思想 
+	printf("%d",B[i-1][j-1]);
+	return 0;
+} 
+int max(int a,int b){
+	return a>b?a:b;
+} 
+*/
 
 
 
